@@ -7,7 +7,8 @@ async def fetch_song_data(session, song_link):
         content = await response.text()
         soup = BeautifulSoup(content, "html.parser")
         song_name = soup.find("div", class_="singer-name").b.text
-        artists_name = soup.find("p", class_="show-hide-text-content").text.replace("\n","").replace("  ","")
+        name = soup.select("#album_page > div.col-lg-12.col-md-12.col-sm-12.col-xs-12.album_page_content > div.col-lg-9.col-md-9.col-sm-12.col-xs-12 > div.col-lg-12.col-md-12.col-sm-12.col-xs-12 > div:nth-child(2) > div.col-lg-9.col-md-9.col-sm-6.col-xs-8")[0].text
+        artists_name = name.strip()
         song_icon = soup.find("div", class_="col-lg-3 col-md-3 col-sm-12 col-xs-12").img["src"]
         download_link = soup.find("a", class_="btn-download")["href"]
         return {"song_name": song_name,"artists_name":artists_name, "song_icon":song_icon, "download_link": download_link}
@@ -32,7 +33,7 @@ async def search(query):
 
 async def main():
     result = await search("tum")
-    print(result)
+    # print(result)
 
 if __name__ == "__main__":
     asyncio.run(main())
