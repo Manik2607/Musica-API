@@ -30,10 +30,17 @@ async def search(query):
                         task = asyncio.ensure_future(fetch_song_data(session, song_link))
                         tasks.append(task)
             return await asyncio.gather(*tasks)
+        
+async def get_song(name):
+    results = await search(name)
+    if results:
+        return results[0]["download_link"]  # Return the first song's download link
+    else:
+        return ""  # Handle case where no songs are found
+
 
 async def main():
-    result = await search("tum")
-    print(result)
+    await get_song("tera")
 
 if __name__ == "__main__":
     asyncio.run(main())

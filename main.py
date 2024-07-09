@@ -25,6 +25,10 @@ app.add_middleware(
 async def get_search_results(query: str) -> List[dict]:
     return await scraper.search(query)
 
+@app.get("/getSong/{query}")
+async def get_song_link(query: str) -> str:
+    return await scraper.get_song(query)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=10000)
